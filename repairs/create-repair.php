@@ -18,7 +18,7 @@ $result = $q->execute();
 $client= $q->fetchAll();
 
 //2. Build SQL sentence
-$sql = "SELECT  id, license_plate FROM cars";
+$sql = "SELECT  id, car_cliId FROM cars";
 //3. prepare SQL sentence
 $q = $cnx->prepare($sql);
 //4. execute SQL sentence
@@ -68,7 +68,7 @@ Car
 for($i=0; $i<count($cars); $i++) {
 ?>
 <option value="<?php echo $cars[$i]["id"] ?>">
-<?php echo $cars[$i]["license_plate"] ?>
+<?php echo $cars[$i]["car_cliId"] ?>
 </option>
 
 <?php

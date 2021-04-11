@@ -9,7 +9,7 @@
 
 <body>
 
-<form action="save-client.php" method="POST">
+<form action="create-client.php" method="POST">
 Create a Client <br>
 <br>
 <br>

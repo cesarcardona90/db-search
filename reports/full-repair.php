@@ -1,5 +1,12 @@
 <?php
 
+$mark;
+$where = '';
+if(isset($_REQUEST['mark'])){
+    $mark = $_REQUEST['mark'];
+    $where = "WHERE ca.mark = '$mark'";
+
+}
 //1- conect to database
 $host = "localhost";
 $dbname = "car_workshop_db_2021";
@@ -10,7 +17,7 @@ $cnx = new PDO("mysql:host=$host;dbname=$dbname", $ussername, $password);
 
 //2. Build SQL sentence
 
-$sql = "SELECT cl.name,cl.cli_carId, ca.mark,ca.model, re.description from repairs re join cars ca on ca.id=re.cars join client cl on cl.cli_carId=ca.car_cliId";
+$sql = "SELECT cl.name,cl.cli_carId, ca.mark,ca.model, re.description from repairs re join cars ca on ca.id=re.cars join client cl on cl.cli_carId= ca.car_cliId $where";
 //3. prepare SQL sentence
 
 $q = $cnx-> prepare($sql);
@@ -33,6 +40,21 @@ $repairs = $q-> fetchAll();
     <title>Repairs list</title>
 </head>
 <body>
+
+<form action="full-repair.php">
+<select name="mark">
+<option value="mazda"> mazda</option>
+ <option value="corolla"> corolla</option>
+ <option value="toyota"> toyota</option>
+
+ </select>
+ <hr/>
+
+
+<input type="submit"
+ value="Search"/>
+
+</form>
 <h1>  REPAIRS LIST </h1>
     <table border="1">
         <tr>
