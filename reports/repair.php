@@ -3,10 +3,10 @@
 
 $where = '';
 
-if(isset($_REQUEST['cli_carId'])){
-    $cli_carId= $_REQUEST['cli_carId'];
-    if($cli_carId != ""){
-$where = "WHERE  cl.cli_carId = '$cli_carId'";
+if(isset($_REQUEST['identification_card'])){
+    $identification_card= $_REQUEST['identification_card'];
+    if($identification_card != ""){
+$where = "WHERE  cl.identification_card = '$identification_card'";
 }
 }
 
@@ -21,14 +21,14 @@ else{
 }
 }
 }
-if(isset($_REQUEST['mark'])){
-    $mark = $_REQUEST['mark'];
-    if($mark != ""){
+if(isset($_REQUEST['model'])){
+    $model= $_REQUEST['model'];
+    if($model != ""){
         if($where == ""){
-$where = " WHERE ca.mark = '$mark'";
+$where = " WHERE ca.model = '$model'";
 }
 else{
-    $where = "$where AND ca.mark = '$mark'";
+    $where = "$where AND ca.model = '$model'";
 }
 }
 }
@@ -42,7 +42,7 @@ $cnx = new PDO("mysql:host=$host;dbname=$dbname", $ussername, $password);
 
 //2. Build SQL sentence
 
-$sql = "SELECT cl.name,cl.cli_carId, ca.mark,ca.model, re.description from repairs re join cars ca on ca.id=re.cars join client cl on cl.cli_carId= ca.car_cliId $where";
+$sql = "SELECT cl.name, cl.phone,cl.identification_card,ca.km,ca.model, re.admission_date from repairs re join cars ca on ca.id=re.cars join client cl on cl.cli_carId= ca.car_cliId $where";
 //3. prepare SQL sentence
 
 
@@ -67,44 +67,49 @@ $repairs = $q-> fetchAll();
     <title>Repairs list</title>
 </head>
 <body>
-Mark
-<form action="full-repair.php">
-<select name="mark">
+Model
+<form action="repair.php">
+<select name="model">
 
 <option value="">Select</option>
-<option value="mazda"> mazda</option>
- <option value="corolla"> corolla</option>
- <option value="toyota"> toyota</option>
- <option value="FIAT"> FIAT</option>
+<option value="1994"> 1994</option>
+<option value="2019"> 2019</option>
+ <option value="2020"> 2020</option>
+ <option value="2021"> 2021</option>
+ <option value="2022"> 2022</option>
 
  </select>
  <br> <br>
- License Plate <input type name="cli_carId">
+ Identification Card <input type name="identification_card">
 <br> <br>
 Name Client <input type text  name ="name">
 <br><br>
- <hr/>
 <input type="submit"
  value="Search"/>
+ <hr/>
+
 
 </form>
 <h1>  REPAIRS LIST </h1>
     <table border="1">
         <tr>
            <td>
-             Client Name    
+             name   
          </td>
          <td>
-             License Plate    
+             phone
          </td>
          <td>
-             Mark     
+         identification card    
          </td>
          <td>
-             Model     
+             km  
          </td>
          <td>
-             Description     
+             model   
+         </td>
+         <td>
+                admission date
          </td>
     </tr>
     
@@ -117,16 +122,19 @@ Name Client <input type text  name ="name">
              <?php echo $repairs[$i]["name"] ?>  
          </td>
          <td>
-         <?php echo $repairs[$i]["cli_carId"] ?>     
+         <?php echo $repairs[$i]["phone"] ?>     
          </td>
          <td>
-         <?php echo $repairs[$i]["mark"] ?>      
+         <?php echo $repairs[$i]["identification_card"] ?>      
+         </td>
+         <td>
+         <?php echo $repairs[$i]["km"] ?>      
          </td>
          <td>
          <?php echo $repairs[$i]["model"] ?>      
          </td>
          <td>
-         <?php echo $repairs[$i]["description"] ?>      
+         <?php echo $repairs[$i]["admission_date"] ?>      
          </td>
     </tr>
     <?php
